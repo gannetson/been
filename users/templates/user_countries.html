@@ -1,0 +1,148 @@
+{% load i18n %}
+<html>
+<head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        google.load("visualization", "1", {packages: ["geochart"]});
+        google.setOnLoadCallback(drawRegionsMap);
+
+        function drawRegionsMap() {
+
+            var data = google.visualization.arrayToDataTable([
+                ["Code", "Country", "Year", {role: 'tooltip', p:{html:true}}],
+                {% for country in user.countries.all %}
+                {% if country.foto %}
+                    [
+                        "{{country.country.code}}",
+                        "{{country.country.name}}",
+                        {{country.year}},
+                        "<i>{{country.year}}</i><br>" +
+                        "<img class='tooltip-foto' src='{{country.foto.url}}' />" +
+                        "<img class='tooltip-flag small' src='{{country.flag}}'>"
+                    ],
+                {% else %}
+                    [
+                        "{{country.country.code}}",
+                        "{{country.country.name}}",
+                        {{country.year}},
+                        "<i>{{country.year}}</i><br>" +
+                        "<img class='tooltip-flag' src='{{country.flag}}'>"
+                    ],
+                {% endif %}
+                {% endfor %}
+            ]);
+            var options = {
+                colorAxis: {colors: ['#eebb00', '#bb0000']},
+                backgroundColor: '#81d4fa',
+                datalessRegionColor: '#eeeeff',
+                defaultColor: '#f5f5f5',
+                legend: {numberFormat:'#'},
+                tooltip: {isHtml: true},
+            };
+
+            var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+            chart.draw(data, options);
+        }
+    </script>
+    <style>
+        body {
+            font-family: sans-serif, "Arial";
+            padding: 0;
+            margin: 0;
+            background-color: #e0f4fc;
+        }
+        h2 {
+            background-color: #1E74FF;
+            color: white;
+            padding: 10px;
+            margin: 0;
+            text-align: center;
+            box-shadow: rgba(0, 0, 0, 0.6) 0 8px 14px;
+            z-index: 4;
+            width: 100%;
+            position: fixed;
+        }
+        .map {
+            width: 100%;
+            height: 80%;
+            box-shadow: rgba(0, 0, 0, 0.6) 0 8px 14px;
+        }
+        .flags {
+            list-style-type: none
+        }
+
+        .flag img {
+            width: 100%;
+            box-shadow: rgba(0, 0, 0, 0.3) 3px 3px 3px;
+        }
+
+        .flag {
+            float: left;
+            width: 150px;
+            height: 120px;
+            margin: 10px;
+            text-align: center;
+            font-size: 12px;
+        }
+        .tooltip-foto {
+            max-width:400px;
+            max-height:400px;
+            height: auto;
+            width:auto;
+        }
+        .tooltip-flag {
+            width: 150px;
+        }
+        .tooltip-flag.small {
+            width: 50px;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+        .foto {
+            position: absolute;
+            height: 300px;
+            width: 300px;
+        }
+        .flag .foto img {
+            display: none;
+        }
+        .flag:hover .foto img {
+            display: block;
+        }
+        .google-visualization-tooltip {
+            box-shadow: rgba(0, 0, 0, 0.6) 8px 8px 14px !important;
+            background-color: #e0f4fc !important;
+        }
+        .google-visualization-tooltip-item {
+            margin: 8px 8px 8px 8px !important;
+            padding: 0 !important;
+        }
+    </style>
+</head>
+<body>
+    <h2>
+        {{user.username.title}}
+        {{user.countries.count}} {% trans "countries" %}
+    </h2>
+    <div id="regions_div" class="map"></div>
+    <ul class="flags">
+        {% for country in user.countries.all %}
+        <li class="flag">
+            {% if country.foto %}
+                <div class="foto">
+                    <img src="{{country.foto.url}}" />
+                </div>
+            {% endif %}
+            <img class="flag-image" src="{{country.flag}}"/>
+            <br/>
+            {{country.country.name}} {{country.year}}
+            {% if country.foto %}
+                <span class="icon">📷</span>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
