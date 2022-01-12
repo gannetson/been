@@ -14,11 +14,12 @@ changes = ''
 
 
 install_requires = [
-    'Django==4',
+    'Django==3.2.11',
     'django-countries==7.2.1',
     'Pillow==9',
-    'psycopg2==2.9.3',
+    'psycopg2==2.7.7',
 ]
+
 tests_requires = [
 
 ]
