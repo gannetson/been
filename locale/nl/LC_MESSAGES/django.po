@@ -20,8 +20,8 @@ msgstr ""
 
 #: countries/monkey.py:15
 msgid "Kosovo"
-msgstr ""
+msgstr "Kosovo"
 
 #: users/templates/user_countries.html:87
 msgid "countries"
-msgstr ""
+msgstr "landen"
