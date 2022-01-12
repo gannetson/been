@@ -21,7 +21,7 @@ class UserCountry(models.Model):
 
     @property
     def flag(self):
-        return f'https://www.worldatlas.com/img/flag/{self.country.code.lower()}-flag.png'
+        return f'https://flagcdn.com/{self.country.code.lower()}.svg'
 
     def __str__(self):
         return f"Countries for {self.user}"
