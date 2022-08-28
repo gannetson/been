@@ -23,5 +23,9 @@ class UserCountry(models.Model):
     def flag(self):
         return f'https://flagcdn.com/{self.country.code.lower()}.svg'
 
+    @property
+    def name(self):
+        return self.country.name
+
     def __str__(self):
         return f"Countries for {self.user}"
