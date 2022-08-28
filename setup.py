@@ -18,6 +18,7 @@ install_requires = [
     'django-countries==7.2.1',
     'Pillow==9',
     'psycopg2-binary==2.9.3',
+    'djangorestframework==3.13.1'
 ]
 
 tests_requires = [
