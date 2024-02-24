@@ -29,3 +29,34 @@ class UserCountry(models.Model):
 
     def __str__(self):
         return f"Countries for {self.user}"
+
+
+class Region(models.Model):
+    code = models.CharField(max_length=5)
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+
+
+class UserRegion(models.Model):
+    user = models.ForeignKey(AUTH_USER_MODEL, related_name='regions', on_delete=CASCADE)
+    region = models.ForeignKey(Region, related_name='users', on_delete=CASCADE)
+    year = models.IntegerField(default=now().year)
+    foto = models.ImageField(blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'User extra regions'
+        verbose_name_plural  = 'User extra regions'
+        ordering = ['year']
+
+    @property
+    def flag(self):
+        return f'https://flagcdn.com/{self.region.code.lower()}.svg'
+
+    @property
+    def name(self):
+        return self.region.name
+
+    def __str__(self):
+        return f"Extra regions for {self.user}"

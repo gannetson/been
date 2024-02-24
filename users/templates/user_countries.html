@@ -30,6 +30,26 @@
                     ],
                 {% endif %}
                 {% endfor %}
+                {% for region in user.regions.all %}
+                {% if country.foto %}
+                    [
+                        "{{region.region.code}}",
+                        "{{region.region.name}}",
+                        {{region.year}},
+                        "<i>{{region.year}}</i><br>" +
+                        "<img class='tooltip-foto' src='{{region.foto.url}}' />" +
+                        "<img class='tooltip-flag small' src='{{region.flag}}'>"
+                    ],
+                {% else %}
+                    [
+                        "{{region.region.code}}",
+                        "{{region.region.name}}",
+                        {{region.year}},
+                        "<i>{{region.year}}</i><br>" +
+                        "<img class='tooltip-flag small' src='{{region.flag}}'>"
+                    ],
+                {% endif %}
+                {% endfor %}
             ]);
             var options = {
                 colorAxis: {colors: ['#eebb00', '#bb0000']},
@@ -143,6 +163,25 @@
             <br/>
             {{country.country.name}} {{country.year}}
             {% if country.foto %}
+                <span class="icon">📷</span>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    <br style="clear:both"/>
+    <h3>{%  trans "Extra regions" %}</h3>
+    <ul class="flags">
+        {% for region in user.regions.all %}
+        <li class="flag">
+            {% if region.foto %}
+                <div class="foto">
+                    <img src="{{region.foto.url}}" />
+                </div>
+            {% endif %}
+            <img class="flag-image" src="{{region.flag}}"/>
+            <br/>
+            {{region.region.name}} {{region.year}}
+            {% if region.foto %}
                 <span class="icon">📷</span>
             {% endif %}
         </li>

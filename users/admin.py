@@ -5,10 +5,10 @@ from django.contrib.admin import register
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-from countries.admin import UserCountryInline
+from countries.admin import UserCountryInline, UserRegionInline
 
 admin.site.unregister(User)
 
 @register(User)
 class UserAdmin(BaseUserAdmin):
-    inlines = (UserCountryInline,)
+    inlines = (UserCountryInline, UserRegionInline)
